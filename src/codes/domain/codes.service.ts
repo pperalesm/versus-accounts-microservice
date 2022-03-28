@@ -17,5 +17,5 @@ export class CodesService {
     return outCode;
   }
 
-  async consume(code: Code) {}
+  async consume() {}
 }
