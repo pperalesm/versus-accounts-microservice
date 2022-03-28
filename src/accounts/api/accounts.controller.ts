@@ -6,20 +6,15 @@ import { InActivateDto } from "./dto/activate.dto";
 import { InResetDto } from "./dto/reset.dto";
 import { instanceToPlain, plainToInstance } from "class-transformer";
 import { Account } from "../domain/Account";
-import { CodesService } from "src/codes/domain/codes.service";
 
 @Controller("accounts")
 export class AccountsController {
-  constructor(
-    private readonly accountsService: AccountsService,
-    private readonly codesService: CodesService,
-  ) {}
+  constructor(private readonly accountsService: AccountsService) {}
 
   @Post("signup")
   async signup(@Body() inSignupDto: InSignupDto) {
     const inAccount = this.toDomain(inSignupDto);
     const outAccount = await this.accountsService.signup(inAccount);
-    this.codesService.generateActivationCode();
     const outSignupDto = plainToInstance(
       OutSignupDto,
       instanceToPlain(outAccount),

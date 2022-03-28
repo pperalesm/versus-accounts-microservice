@@ -5,5 +5,5 @@ export class Code {
   id: string;
 
   @Expose()
-  type: string;
+  accountId: string;
 }

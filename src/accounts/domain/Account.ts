@@ -21,10 +21,4 @@ export class Account {
 
   @Expose()
   avatarPath: string;
-
-  @Expose()
-  createdAt: Date;
-
-  @Expose()
-  updatedAt: Date;
 }

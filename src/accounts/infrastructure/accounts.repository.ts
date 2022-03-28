@@ -13,23 +13,17 @@ export class AccountsRepository {
   ) {}
 
   async create(inAccount: Account): Promise<Account> {
-    const inAccountDocument = new this.accountModel(this.fromDomain(inAccount));
-    const outAccountDocument = await inAccountDocument.save();
-    return this.toDomain(outAccountDocument);
+    const outAccountDocument = await this.accountModel.create(inAccount);
+    return this.toDomain(outAccountDocument.toObject());
   }
 
-  toDomain(before: AccountDocument): Account {
-    const now = plainToInstance(Account, instanceToPlain(before.toJSON()), {
+  toDomain(before: any): Account {
+    const now = plainToInstance(Account, instanceToPlain(before), {
       excludeExtraneousValues: true,
     });
-    now.id = before.id;
-    return now;
-  }
-
-  fromDomain(before: Account): AccountEntity {
-    const now = plainToInstance(AccountEntity, instanceToPlain(before), {
-      excludeExtraneousValues: true,
-    });
+    if (before.id) {
+      now.id = before.id;
+    }
     return now;
   }
 }

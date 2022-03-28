@@ -12,24 +12,31 @@ export class CodesRepository {
     private codeModel: Model<CodeDocument>,
   ) {}
 
-  async create(inAccount: Code): Promise<Code> {
-    const inCodeDocument = new this.codeModel(this.fromDomain(inAccount));
-    const outCodeDocument = await inCodeDocument.save();
+  async create(inCode: Code): Promise<Code> {
+    const outCodeDocument = await this.codeModel.create(inCode);
     return this.toDomain(outCodeDocument);
   }
 
-  toDomain(before: CodeDocument): Code {
-    const now = plainToInstance(Code, instanceToPlain(before.toJSON()), {
-      excludeExtraneousValues: true,
-    });
-    now.id = before.id;
-    return now;
+  async update(inCode: Code): Promise<Code> {
+    const outCodeDocument = await this.codeModel.findOneAndUpdate(
+      { accountId: inCode.accountId },
+      { accountId: inCode.accountId },
+      { returnOriginal: false },
+    );
+    let outCode: Code = null;
+    if (outCodeDocument) {
+      outCode = this.toDomain(outCodeDocument);
+    }
+    return outCode;
   }
 
-  fromDomain(before: Code): CodeEntity {
-    const now = plainToInstance(CodeEntity, instanceToPlain(before), {
+  toDomain(before: any): Code {
+    const now = plainToInstance(Code, instanceToPlain(before), {
       excludeExtraneousValues: true,
     });
+    if (before.id) {
+      now.id = before.id;
+    }
     return now;
   }
 }
