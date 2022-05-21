@@ -23,6 +23,6 @@ export class AccountsService {
   }
 
   async activate(id: string) {
-    await this.codesService.consume(new Code());
+    await this.codesService.consume();
   }
 }

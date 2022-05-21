@@ -6,7 +6,7 @@ import { CodesModule } from "./codes/codes.module";
 @Module({
   imports: [
     MongooseModule.forRoot(
-      "mongodb://admin:admin@0.0.0.0:27017/accounts-microservice?authSource=admin",
+      `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/accounts-microservice?authSource=admin`,
     ),
     AccountsModule,
     CodesModule,
