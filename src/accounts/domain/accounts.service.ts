@@ -18,7 +18,6 @@ export class AccountsService {
     const outAccount = await this.accountsRepository.create(inAccount);
     const code = await this.codesService.getCode(outAccount);
     // TODO: Call email service to send URL with code
-    console.log(code.id);
     return outAccount;
   }
 
