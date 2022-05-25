@@ -7,7 +7,8 @@ import { CodesModule } from "./codes/codes.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
-      ignoreEnvFile: process.env.NODE_ENV == "production",
+      envFilePath: "local.env",
+      ignoreEnvFile: process.env.NODE_ENV && process.env.NODE_ENV != "local",
     }),
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/accounts-microservice?authSource=admin`,
