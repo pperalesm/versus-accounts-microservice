@@ -5,7 +5,6 @@ import { Document } from "mongoose";
 @ObjectType()
 @Schema({ timestamps: true })
 export class Account {
-  @Field()
   id: string;
 
   @Field()

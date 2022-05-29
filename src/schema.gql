@@ -3,7 +3,6 @@
 # ------------------------------------------------------
 
 type Account {
-  id: String!
   email: String!
   username: String!
   password: String!

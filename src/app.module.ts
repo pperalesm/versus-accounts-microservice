@@ -7,7 +7,6 @@ import { join } from "path";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Constants } from "./constants";
 import { MailerModule } from "@nestjs-modules/mailer";
-import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 
 @Module({
   imports: [
@@ -24,22 +23,15 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handleba
     ),
     MailerModule.forRoot({
       transport: {
-        host: "smtp.ethereal.email",
-        port: 587,
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT),
         auth: {
-          user: "benjamin.friesen44@ethereal.email",
-          pass: "jJgWDjsWxyQPY235ab",
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
         },
       },
       defaults: {
         from: '"Versus Information" <info@versus.gg>',
-      },
-      template: {
-        dir: __dirname + "/templates",
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
-        },
       },
     }),
     AccountsModule,

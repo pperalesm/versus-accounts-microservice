@@ -13,19 +13,24 @@ export class AccountsService {
   ) {}
 
   async create(createAccountInput: CreateAccountDto) {
-    const account = new Account({
+    let account = new Account({
       avatarPath: "defaultAvatar.png",
       ...createAccountInput,
       role: "CLIENT",
       active: false,
     });
-    await this.mailerService.sendMail({
-      to: "pperalesm@gmail.com", // list of receivers
-      subject: "Testing Nest MailerModule ✔", // Subject line
-      text: "welcome", // plaintext body
-      html: "<b>welcome</b>", // HTML body content
-    });
-    return await this.accountsRepository.create(account);
+
+    account = await this.accountsRepository.create(account);
+
+    this.mailerService
+      .sendMail({
+        to: account.email,
+        subject: "Versus account activation",
+        html: `<p>Please follow this <a href="https://versus.gg/auth/activate/${account.id}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
+      })
+      .catch(() => {});
+
+    return account;
   }
 
   async findAll() {
