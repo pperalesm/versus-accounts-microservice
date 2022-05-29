@@ -1,3 +1,4 @@
+import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
 import { CreateAccountDto } from "../api/dto/create-account.dto";
 import { UpdateAccountDto } from "../api/dto/update-account.dto";
@@ -6,7 +7,10 @@ import { Account } from "./entities/account.entity";
 
 @Injectable()
 export class AccountsService {
-  constructor(private readonly accountsRepository: AccountsRepository) {}
+  constructor(
+    private readonly accountsRepository: AccountsRepository,
+    private readonly mailerService: MailerService,
+  ) {}
 
   async create(createAccountInput: CreateAccountDto) {
     const account = new Account({
@@ -14,6 +18,12 @@ export class AccountsService {
       ...createAccountInput,
       role: "CLIENT",
       active: false,
+    });
+    await this.mailerService.sendMail({
+      to: "pperalesm@gmail.com", // list of receivers
+      subject: "Testing Nest MailerModule ✔", // Subject line
+      text: "welcome", // plaintext body
+      html: "<b>welcome</b>", // HTML body content
     });
     return await this.accountsRepository.create(account);
   }

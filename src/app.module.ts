@@ -6,6 +6,8 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { join } from "path";
 import { MongooseModule } from "@nestjs/mongoose";
 import { Constants } from "./constants";
+import { MailerModule } from "@nestjs-modules/mailer";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 
 @Module({
   imports: [
@@ -20,6 +22,26 @@ import { Constants } from "./constants";
     MongooseModule.forRoot(
       `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/${Constants.ACCOUNTS_DB}?authSource=admin`,
     ),
+    MailerModule.forRoot({
+      transport: {
+        host: "smtp.ethereal.email",
+        port: 587,
+        auth: {
+          user: "benjamin.friesen44@ethereal.email",
+          pass: "jJgWDjsWxyQPY235ab",
+        },
+      },
+      defaults: {
+        from: '"Versus Information" <info@versus.gg>',
+      },
+      template: {
+        dir: __dirname + "/templates",
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
     AccountsModule,
   ],
 })
