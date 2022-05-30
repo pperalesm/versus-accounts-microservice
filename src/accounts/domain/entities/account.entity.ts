@@ -15,7 +15,6 @@ export class Account {
   @Prop()
   username: string;
 
-  @Field()
   @Prop()
   password: string;
 
@@ -37,6 +36,9 @@ export class Account {
   @Field()
   updatedAt: Date;
 
+  @Prop()
+  token: string;
+
   constructor({
     id,
     email,
@@ -47,6 +49,7 @@ export class Account {
     avatarPath,
     createdAt,
     updatedAt,
+    token,
   }: {
     id?: string;
     email?: string;
@@ -57,6 +60,7 @@ export class Account {
     avatarPath?: string;
     createdAt?: Date;
     updatedAt?: Date;
+    token?: string;
   }) {
     this.id = id;
     this.email = email;
@@ -67,6 +71,7 @@ export class Account {
     this.avatarPath = avatarPath;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.token = token;
   }
 }
 

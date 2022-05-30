@@ -5,7 +5,6 @@
 type Account {
   email: String!
   username: String!
-  password: String!
   role: String!
   active: Boolean!
   avatarPath: String!
@@ -25,7 +24,7 @@ type Query {
 
 type Mutation {
   createAccount(createAccountDto: CreateAccountDto!): Account!
-  updateAccount(updateAccountDto: UpdateAccountDto!): Account!
+  activateAccount(activateAccountDto: ActivateAccountDto!): Account!
   removeAccount(id: String!): Account!
 }
 
@@ -35,6 +34,7 @@ input CreateAccountDto {
   password: String!
 }
 
-input UpdateAccountDto {
+input ActivateAccountDto {
   id: String!
+  token: String!
 }

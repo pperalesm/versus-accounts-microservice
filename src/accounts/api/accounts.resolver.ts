@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
 import { AccountsService } from "../domain/accounts.service";
 import { Account } from "../domain/entities/account.entity";
 import { CreateAccountDto } from "./dto/create-account.dto";
-import { UpdateAccountDto } from "./dto/update-account.dto";
+import { ActivateAccountDto } from "./dto/activate-account.dto";
 
 @Resolver(() => Account)
 export class AccountsResolver {
@@ -15,6 +15,13 @@ export class AccountsResolver {
     return await this.accountsService.create(createAccountInput);
   }
 
+  @Mutation(() => Account)
+  async activateAccount(
+    @Args("activateAccountDto") activateAccountDto: ActivateAccountDto,
+  ) {
+    return await this.accountsService.activate(activateAccountDto);
+  }
+
   @Query(() => [Account])
   findAll() {
     return this.accountsService.findAll();
@@ -23,16 +30,6 @@ export class AccountsResolver {
   @Query(() => Account)
   async findOne(@Args("id") id: string) {
     return await this.accountsService.findOne(id);
-  }
-
-  @Mutation(() => Account)
-  async updateAccount(
-    @Args("updateAccountDto") updateAccountDto: UpdateAccountDto,
-  ) {
-    return await this.accountsService.update(
-      updateAccountDto.id,
-      updateAccountDto,
-    );
   }
 
   @Mutation(() => Account)

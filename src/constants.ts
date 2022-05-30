@@ -1,4 +1,5 @@
 export const Constants = {
   ACCOUNTS_DB: "accounts-microservice",
-  ACCOUNTS_COLLECTION: "accounts",
+  MIN_PASSWORD_CHARACTERS: 8,
+  SALT_ROUNDS: 12,
 };
