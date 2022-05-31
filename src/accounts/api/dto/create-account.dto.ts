@@ -10,6 +10,7 @@ export class CreateAccountDto {
 
   @Field()
   @IsAlphanumeric()
+  @MinLength(Constants.MIN_USERNAME_CHARACTERS)
   username: string;
 
   @Field()

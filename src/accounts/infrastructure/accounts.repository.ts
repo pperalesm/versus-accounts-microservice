@@ -14,21 +14,24 @@ export class AccountsRepository {
     return await this.accountModel.create(account);
   }
 
-  async update(account: Account): Promise<Account> {
-    return await this.accountModel.findByIdAndUpdate(account.id, account, {
+  async updateOne(
+    filter: Record<string, unknown>,
+    updateInfo: Account,
+  ): Promise<Account> {
+    return await this.accountModel.findOneAndUpdate(filter, updateInfo, {
       new: true,
     });
   }
 
-  async findOne(id: string): Promise<Account> {
+  async findById(id: string): Promise<Account> {
     return await this.accountModel.findById(id);
   }
 
-  async findAll(): Promise<Array<Account>> {
-    return await this.accountModel.find();
+  async findOne(filter: Record<string, unknown>): Promise<Account> {
+    return await this.accountModel.findOne(filter);
   }
 
-  async remove(id: string): Promise<Account> {
+  async removeById(id: string): Promise<Account> {
     return await this.accountModel.findByIdAndRemove(id);
   }
 }
