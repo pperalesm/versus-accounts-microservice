@@ -40,7 +40,7 @@ export class AccountsService {
       .sendMail({
         to: account.email,
         subject: "Versus account activation",
-        html: `<p>Please follow this <a href="${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
+        html: `<p>Please follow this <a href="https://${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
       })
       .catch(() => {});
 
@@ -107,7 +107,7 @@ export class AccountsService {
       .sendMail({
         to: account.email,
         subject: "Versus password reset",
-        html: `<p>Please follow this <a href="${process.env.FRONTEND_URL}/auth/reset?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to reset your Versus account password!<p>`,
+        html: `<p>Please follow this <a href="https://${process.env.FRONTEND_URL}/auth/reset?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to reset your Versus account password!<p>`,
       })
       .catch(() => {});
 
