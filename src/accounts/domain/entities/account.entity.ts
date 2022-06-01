@@ -9,11 +9,11 @@ export class Account {
   id: string;
 
   @Field({ nullable: true, middleware: [ownershipMiddleware] })
-  @Prop()
+  @Prop({ unique: true })
   email: string;
 
   @Field()
-  @Prop()
+  @Prop({ unique: true })
   username: string;
 
   @Prop()

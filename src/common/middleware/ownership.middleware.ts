@@ -6,11 +6,7 @@ export const ownershipMiddleware: FieldMiddleware = async (
 ) => {
   const value = await next();
 
-  if (
-    !ctx.source.token &&
-    ctx.context.req.user &&
-    ctx.source.id !== ctx.context.req.user.id
-  ) {
+  if (ctx.context.req.user && ctx.source.id !== ctx.context.req.user.id) {
     return null;
   }
 

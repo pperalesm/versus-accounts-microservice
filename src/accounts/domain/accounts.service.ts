@@ -51,7 +51,7 @@ export class AccountsService {
     const updateInfo = new Account({ active: true, token: null });
 
     const account = await this.accountsRepository.updateOne(
-      { ...activateAccountDto },
+      { _id: activateAccountDto.id, token: activateAccountDto.token },
       updateInfo,
     );
 
@@ -124,7 +124,7 @@ export class AccountsService {
     });
 
     return await this.accountsRepository.updateOne(
-      { id: resetPasswordDto.id, token: resetPasswordDto.token },
+      { _id: resetPasswordDto.id, token: resetPasswordDto.token },
       updateInfo,
     );
   }
