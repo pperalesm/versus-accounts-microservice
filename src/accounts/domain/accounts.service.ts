@@ -11,7 +11,7 @@ import { Constants } from "src/constants";
 import { isEmail } from "class-validator";
 import { LoginResponseDto } from "../api/dto/login-response.dto";
 import { JwtService } from "@nestjs/jwt";
-import { User } from "src/common/models/current-user.model";
+import { ResetPasswordDto } from "../api/dto/reset-password.dto";
 
 @Injectable()
 export class AccountsService {
@@ -40,7 +40,7 @@ export class AccountsService {
       .sendMail({
         to: account.email,
         subject: "Versus account activation",
-        html: `<p>Please follow this <a href="https://${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
+        html: `<p>Please follow this <a href="${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
       })
       .catch(() => {});
 
@@ -83,6 +83,7 @@ export class AccountsService {
     return new LoginResponseDto({
       token: this.jwtService.sign({
         id: account.id,
+        username: account.username,
         role: account.role,
         active: account.active,
       }),
@@ -90,11 +91,49 @@ export class AccountsService {
     });
   }
 
+  async forgotPassword(email: string) {
+    const updateInfo = new Account({ token: crypto.randomUUID() });
+
+    const account = await this.accountsRepository.updateOne(
+      { email: email },
+      updateInfo,
+    );
+
+    if (!account) {
+      throw new Error();
+    }
+
+    this.mailerService
+      .sendMail({
+        to: account.email,
+        subject: "Versus password reset",
+        html: `<p>Please follow this <a href="${process.env.FRONTEND_URL}/auth/reset?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to reset your Versus account password!<p>`,
+      })
+      .catch(() => {});
+
+    return true;
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    const updateInfo = new Account({
+      password: await bcrypt.hash(
+        resetPasswordDto.password,
+        Constants.SALT_ROUNDS,
+      ),
+      token: null,
+    });
+
+    return await this.accountsRepository.updateOne(
+      { id: resetPasswordDto.id, token: resetPasswordDto.token },
+      updateInfo,
+    );
+  }
+
   async findOne(id: string) {
     return await this.accountsRepository.findById(id);
   }
 
-  async remove(user: User) {
-    return await this.accountsRepository.removeById(user.id);
+  async remove(id: string) {
+    return await this.accountsRepository.removeById(id);
   }
 }

@@ -23,6 +23,12 @@ export class AccountsRepository {
     });
   }
 
+  async updateById(id: string, updateInfo: Account): Promise<Account> {
+    return await this.accountModel.findByIdAndUpdate(id, updateInfo, {
+      new: true,
+    });
+  }
+
   async findById(id: string): Promise<Account> {
     return await this.accountModel.findById(id);
   }

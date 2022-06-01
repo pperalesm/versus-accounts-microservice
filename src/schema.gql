@@ -24,7 +24,8 @@ type LoginResponseDto {
 
 type Query {
   login(loginDto: LoginDto!): LoginResponseDto!
-  findAccount(id: String!): Account!
+  findAccount: Account!
+  forgotPassword(email: String!): Boolean!
 }
 
 input LoginDto {
@@ -36,6 +37,7 @@ type Mutation {
   createAccount(createAccountDto: CreateAccountDto!): Account!
   activateAccount(activateAccountDto: ActivateAccountDto!): Account!
   removeAccount: Account!
+  resetPassword(resetPasswordDto: ResetPasswordDto!): Account!
 }
 
 input CreateAccountDto {
@@ -47,4 +49,10 @@ input CreateAccountDto {
 input ActivateAccountDto {
   id: String!
   token: String!
+}
+
+input ResetPasswordDto {
+  id: String!
+  token: String!
+  password: String!
 }

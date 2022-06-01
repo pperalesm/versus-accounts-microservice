@@ -8,8 +8,9 @@ import { LoginResponseDto } from "./dto/login-response.dto";
 import { UseGuards } from "@nestjs/common";
 import { JwtGqlGuard } from "src/common/guards/jwt-gql.guard";
 import { ThrottlerGqlGuard } from "src/common/guards/throttler-gql.guard";
-import { CurrentUser } from "src/common/decorators/current-user.decorator";
-import { User } from "src/common/models/current-user.model";
+import { AuthenticatedUser } from "src/common/decorators/current-user.decorator";
+import { AuthUser } from "src/common/models/auth-user.model";
+import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @Resolver(() => Account)
 export class AccountsResolver {
@@ -39,13 +40,27 @@ export class AccountsResolver {
 
   @Query(() => Account)
   @UseGuards(JwtGqlGuard)
-  async findAccount(@Args("id") id: string) {
-    return await this.accountsService.findOne(id);
+  async findAccount(@AuthenticatedUser() authUser: AuthUser) {
+    return await this.accountsService.findOne(authUser.id);
   }
 
   @Mutation(() => Account)
   @UseGuards(JwtGqlGuard)
-  async removeAccount(@CurrentUser() currentUser: User) {
-    return await this.accountsService.remove(currentUser);
+  async removeAccount(@AuthenticatedUser() authUser: AuthUser) {
+    return await this.accountsService.remove(authUser.id);
+  }
+
+  @Query(() => Boolean)
+  @UseGuards(ThrottlerGqlGuard)
+  async forgotPassword(@Args("email") email: string) {
+    return await this.accountsService.forgotPassword(email);
+  }
+
+  @Mutation(() => Account)
+  @UseGuards(ThrottlerGqlGuard)
+  async resetPassword(
+    @Args("resetPasswordDto") resetPasswordDto: ResetPasswordDto,
+  ) {
+    return await this.accountsService.resetPassword(resetPasswordDto);
   }
 }
