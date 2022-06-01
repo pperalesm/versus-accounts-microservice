@@ -3,13 +3,13 @@
 # ------------------------------------------------------
 
 type Account {
-  email: String!
+  email: String
   username: String!
-  role: String!
-  active: Boolean!
+  role: String
+  active: Boolean
   avatarPath: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 """
@@ -24,7 +24,7 @@ type LoginResponseDto {
 
 type Query {
   login(loginDto: LoginDto!): LoginResponseDto!
-  findAccount: Account!
+  findAccount(username: String!): Account!
   forgotPassword(email: String!): Boolean!
 }
 

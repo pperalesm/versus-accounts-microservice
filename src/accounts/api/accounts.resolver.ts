@@ -40,8 +40,11 @@ export class AccountsResolver {
 
   @Query(() => Account)
   @UseGuards(JwtGqlGuard)
-  async findAccount(@AuthenticatedUser() authUser: AuthUser) {
-    return await this.accountsService.findOne(authUser.id);
+  async findAccount(
+    @AuthenticatedUser() authUser: AuthUser,
+    @Args("username") username: string,
+  ) {
+    return await this.accountsService.findOne(username);
   }
 
   @Mutation(() => Account)

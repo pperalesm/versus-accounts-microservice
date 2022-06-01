@@ -129,8 +129,8 @@ export class AccountsService {
     );
   }
 
-  async findOne(id: string) {
-    return await this.accountsRepository.findById(id);
+  async findOne(username: string) {
+    return await this.accountsRepository.findOne({ username: username });
   }
 
   async remove(id: string) {
