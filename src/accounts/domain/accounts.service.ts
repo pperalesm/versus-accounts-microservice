@@ -1,5 +1,5 @@
 import { MailerService } from "@nestjs-modules/mailer";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { CreateAccountDto } from "../api/dto/create-account.dto";
 import { ActivateAccountDto } from "../api/dto/activate-account.dto";
 import { LoginDto } from "../api/dto/login.dto";
@@ -50,12 +50,10 @@ export class AccountsService {
   async activate(activateAccountDto: ActivateAccountDto) {
     const updateInfo = new Account({ active: true, token: null });
 
-    const account = await this.accountsRepository.updateOne(
+    return await this.accountsRepository.updateOne(
       { _id: activateAccountDto.id, token: activateAccountDto.token },
       updateInfo,
     );
-
-    return account;
   }
 
   async login(loginDto: LoginDto) {
@@ -77,7 +75,7 @@ export class AccountsService {
         )) && false;
 
     if (!samePassword) {
-      throw new Error();
+      throw new UnauthorizedException();
     }
 
     return new LoginResponseDto({
@@ -98,10 +96,6 @@ export class AccountsService {
       { email: email },
       updateInfo,
     );
-
-    if (!account) {
-      throw new Error();
-    }
 
     this.mailerService
       .sendMail({
@@ -135,5 +129,12 @@ export class AccountsService {
 
   async remove(id: string) {
     return await this.accountsRepository.removeById(id);
+  }
+
+  async checkUsername(username: string) {
+    return this.accountsRepository
+      .findOne({ username: username })
+      .then(() => true)
+      .catch(() => false);
   }
 }

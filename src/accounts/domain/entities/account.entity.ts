@@ -1,14 +1,14 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
-import { ownershipMiddleware } from "../../../common/middleware/ownership.middleware";
+import { accountOwnership } from "./account-ownership.middleware";
 
 @ObjectType()
 @Schema({ timestamps: true })
 export class Account {
   id: string;
 
-  @Field({ nullable: true, middleware: [ownershipMiddleware] })
+  @Field({ nullable: true, middleware: [accountOwnership] })
   @Prop({ unique: true })
   email: string;
 
@@ -19,11 +19,11 @@ export class Account {
   @Prop()
   password: string;
 
-  @Field({ nullable: true, middleware: [ownershipMiddleware] })
+  @Field({ nullable: true, middleware: [accountOwnership] })
   @Prop()
   role: string;
 
-  @Field({ nullable: true, middleware: [ownershipMiddleware] })
+  @Field({ nullable: true, middleware: [accountOwnership] })
   @Prop()
   active: boolean;
 
@@ -31,10 +31,10 @@ export class Account {
   @Prop()
   avatarPath: string;
 
-  @Field({ nullable: true, middleware: [ownershipMiddleware] })
+  @Field({ nullable: true, middleware: [accountOwnership] })
   createdAt: Date;
 
-  @Field({ nullable: true, middleware: [ownershipMiddleware] })
+  @Field({ nullable: true, middleware: [accountOwnership] })
   updatedAt: Date;
 
   @Prop()

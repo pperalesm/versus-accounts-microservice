@@ -29,7 +29,7 @@ import { GqlExceptionFilter } from "@nestjs/graphql";
 export class ErrorFilter implements GqlExceptionFilter {
   catch(exception: any) {
     console.error(">>>>>>>>>>>>>>>>>>>");
-    console.error(exception.stack);
+    console.error(exception);
     console.error("<<<<<<<<<<<<<<<<<<<");
 
     const status =

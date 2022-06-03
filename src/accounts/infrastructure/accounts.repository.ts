@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AccountDocument, Account } from "../domain/entities/account.entity";
@@ -11,33 +15,50 @@ export class AccountsRepository {
   ) {}
 
   async create(account: Account): Promise<Account> {
-    return await this.accountModel.create(account);
+    try {
+      return await this.accountModel.create(account);
+    } catch (e) {
+      console.log(e);
+      throw new ConflictException();
+    }
   }
 
   async updateOne(
     filter: Record<string, unknown>,
     updateInfo: Account,
   ): Promise<Account> {
-    return await this.accountModel.findOneAndUpdate(filter, updateInfo, {
-      new: true,
-    });
-  }
+    const account = await this.accountModel.findOneAndUpdate(
+      filter,
+      updateInfo,
+      {
+        new: true,
+      },
+    );
 
-  async updateById(id: string, updateInfo: Account): Promise<Account> {
-    return await this.accountModel.findByIdAndUpdate(id, updateInfo, {
-      new: true,
-    });
-  }
+    if (!account) {
+      throw new NotFoundException();
+    }
 
-  async findById(id: string): Promise<Account> {
-    return await this.accountModel.findById(id);
+    return account;
   }
 
   async findOne(filter: Record<string, unknown>): Promise<Account> {
-    return await this.accountModel.findOne(filter);
+    const account = await this.accountModel.findOne(filter);
+
+    if (!account) {
+      throw new NotFoundException();
+    }
+
+    return account;
   }
 
   async removeById(id: string): Promise<Account> {
-    return await this.accountModel.findByIdAndRemove(id);
+    const account = await this.accountModel.findByIdAndRemove(id);
+
+    if (!account) {
+      throw new NotFoundException();
+    }
+
+    return account;
   }
 }

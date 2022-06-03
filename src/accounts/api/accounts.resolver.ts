@@ -66,4 +66,9 @@ export class AccountsResolver {
   ) {
     return await this.accountsService.resetPassword(resetPasswordDto);
   }
+
+  @Query(() => Boolean)
+  async checkUsername(@Args("username") username: string) {
+    return await this.accountsService.checkUsername(username);
+  }
 }
