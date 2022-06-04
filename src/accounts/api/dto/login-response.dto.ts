@@ -4,10 +4,10 @@ import { Account } from "src/accounts/domain/entities/account.entity";
 @ObjectType()
 export class LoginResponseDto {
   @Field()
-  token: string;
+  token?: string;
 
   @Field()
-  account: Account;
+  account?: Account;
 
   constructor({ token, account }: { token?: string; account?: Account }) {
     this.token = token;

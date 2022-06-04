@@ -1,8 +1,8 @@
 export class AuthUser {
-  id: string;
-  username: string;
-  role: string;
-  active: boolean;
+  id?: string;
+  username?: string;
+  role?: string;
+  active?: boolean;
 
   constructor({
     id,

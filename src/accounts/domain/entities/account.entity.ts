@@ -6,39 +6,39 @@ import { accountOwnership } from "./account-ownership.middleware";
 @ObjectType()
 @Schema({ timestamps: true })
 export class Account {
-  id: string;
+  id?: string;
 
   @Field({ nullable: true, middleware: [accountOwnership] })
   @Prop({ unique: true })
-  email: string;
+  email?: string;
 
   @Field()
   @Prop({ unique: true })
-  username: string;
+  username?: string;
 
   @Prop()
-  password: string;
-
-  @Field({ nullable: true, middleware: [accountOwnership] })
-  @Prop()
-  role: string;
+  password?: string;
 
   @Field({ nullable: true, middleware: [accountOwnership] })
   @Prop()
-  active: boolean;
+  role?: string;
+
+  @Field({ nullable: true, middleware: [accountOwnership] })
+  @Prop()
+  active?: boolean;
 
   @Field()
   @Prop()
-  avatarPath: string;
+  avatarPath?: string;
 
   @Field({ nullable: true, middleware: [accountOwnership] })
-  createdAt: Date;
+  createdAt?: Date;
 
   @Field({ nullable: true, middleware: [accountOwnership] })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Prop()
-  token: string;
+  token?: string;
 
   constructor({
     id,
