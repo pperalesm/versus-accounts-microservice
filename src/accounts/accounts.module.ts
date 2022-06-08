@@ -10,7 +10,6 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { join } from "path";
-import { Constants } from "src/constants";
 import { CommonModule } from "src/common/common.module";
 import { ThrottlerModule } from "@nestjs/throttler";
 
@@ -27,12 +26,9 @@ import { ThrottlerModule } from "@nestjs/throttler";
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), "src/schema.gql"),
+      autoSchemaFile: join(process.cwd(), "src/accounts/schema.gql"),
       context: ({ req, res }) => ({ req, res }),
     }),
-    MongooseModule.forRoot(
-      `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/${Constants.ACCOUNTS_DB}?authSource=admin`,
-    ),
     MailerModule.forRoot({
       transport: {
         host: process.env.EMAIL_HOST,
