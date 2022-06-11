@@ -78,7 +78,6 @@ export class AccountsService {
 
     return new LoginResponseDto({
       token: this.jwtService.sign({
-        id: account.id,
         username: account.username,
         role: account.role,
         active: account.active,
@@ -121,8 +120,8 @@ export class AccountsService {
     return await this.accountsRepository.findOne({ username: username });
   }
 
-  async remove(id: string) {
-    return await this.accountsRepository.removeById(id);
+  async deleteOne(username: string) {
+    return await this.accountsRepository.deleteOne({ username: username });
   }
 
   async checkUsername(username: string) {

@@ -51,8 +51,8 @@ export class AccountsRepository {
     return account;
   }
 
-  async removeById(id: string): Promise<Account> {
-    const account = await this.accountModel.findByIdAndRemove(id);
+  async deleteOne(filter: Record<string, unknown>): Promise<Account> {
+    const account = await this.accountModel.findOneAndDelete(filter);
 
     if (!account) {
       throw new NotFoundException();

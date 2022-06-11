@@ -49,8 +49,8 @@ export class AccountsResolver {
 
   @Mutation(() => Account)
   @UseGuards(JwtGqlGuard)
-  async removeAccount(@AuthenticatedUser() authUser: AuthUser) {
-    return await this.accountsService.remove(authUser.id);
+  async deleteAccount(@AuthenticatedUser() authUser: AuthUser) {
+    return await this.accountsService.deleteOne(authUser.username);
   }
 
   @Query(() => Boolean)
