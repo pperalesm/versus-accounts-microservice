@@ -19,9 +19,9 @@ export class AccountsResolver {
   @Mutation(() => Account)
   @UseGuards(ThrottlerGqlGuard)
   async createAccount(
-    @Args("createAccountDto") createAccountInput: CreateAccountDto,
+    @Args("createAccountDto") createAccountDto: CreateAccountDto,
   ) {
-    return await this.accountsService.create(createAccountInput);
+    return await this.accountsService.create(createAccountDto);
   }
 
   @Mutation(() => Account)

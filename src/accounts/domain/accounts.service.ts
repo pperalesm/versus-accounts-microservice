@@ -21,15 +21,15 @@ export class AccountsService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async create(createAccountInput: CreateAccountDto) {
+  async create(createAccountDto: CreateAccountDto) {
     let account = new Account({
       avatarPath: "defaultAvatar.png",
-      ...createAccountInput,
+      ...createAccountDto,
       role: "CLIENT",
       active: false,
       token: crypto.randomUUID(),
       password: await bcrypt.hash(
-        createAccountInput.password,
+        createAccountDto.password,
         Constants.SALT_ROUNDS,
       ),
     });
