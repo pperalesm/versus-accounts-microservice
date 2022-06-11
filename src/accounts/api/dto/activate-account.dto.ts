@@ -1,10 +1,10 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { IsAlphanumeric, IsString } from "class-validator";
+import { IsString } from "class-validator";
 
 @InputType()
 export class ActivateAccountDto {
   @Field()
-  @IsAlphanumeric()
+  @IsString()
   id: string;
 
   @Field()

@@ -1,11 +1,11 @@
 import { InputType, Field } from "@nestjs/graphql";
-import { IsAlphanumeric, IsString, MinLength } from "class-validator";
+import { IsString, MinLength } from "class-validator";
 import { Constants } from "src/constants";
 
 @InputType()
 export class ResetPasswordDto {
   @Field()
-  @IsAlphanumeric()
+  @IsString()
   id: string;
 
   @Field()
