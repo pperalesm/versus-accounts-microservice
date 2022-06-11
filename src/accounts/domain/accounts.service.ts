@@ -48,11 +48,9 @@ export class AccountsService {
   }
 
   async activate(activateAccountDto: ActivateAccountDto) {
-    const updateInfo = new Account({ active: true, token: null });
-
     return await this.accountsRepository.updateOne(
       { _id: activateAccountDto.id, token: activateAccountDto.token },
-      updateInfo,
+      { active: true, $unset: { token: "" } },
     );
   }
 
@@ -90,11 +88,9 @@ export class AccountsService {
   }
 
   async forgotPassword(email: string) {
-    const updateInfo = new Account({ token: crypto.randomUUID() });
-
     const account = await this.accountsRepository.updateOne(
       { email: email },
-      updateInfo,
+      { token: crypto.randomUUID() },
     );
 
     this.mailerService
@@ -109,17 +105,15 @@ export class AccountsService {
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
-    const updateInfo = new Account({
-      password: await bcrypt.hash(
-        resetPasswordDto.password,
-        Constants.SALT_ROUNDS,
-      ),
-      token: null,
-    });
-
     return await this.accountsRepository.updateOne(
       { _id: resetPasswordDto.id, token: resetPasswordDto.token },
-      updateInfo,
+      {
+        password: await bcrypt.hash(
+          resetPasswordDto.password,
+          Constants.SALT_ROUNDS,
+        ),
+        $unset: { token: "" },
+      },
     );
   }
 

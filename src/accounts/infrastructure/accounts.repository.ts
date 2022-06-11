@@ -18,14 +18,13 @@ export class AccountsRepository {
     try {
       return await this.accountModel.create(account);
     } catch (e) {
-      console.log(e);
       throw new ConflictException();
     }
   }
 
   async updateOne(
     filter: Record<string, unknown>,
-    updateInfo: Account,
+    updateInfo: Record<string, unknown>,
   ): Promise<Account> {
     const account = await this.accountModel.findOneAndUpdate(
       filter,
