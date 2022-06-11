@@ -6,7 +6,8 @@ export const accountOwnership: FieldMiddleware = async (
 ) => {
   const value = await next();
 
-  return ctx.context.req.user && ctx.source.id !== ctx.context.req.user.id
+  return ctx.context.req.user &&
+    ctx.source.username !== ctx.context.req.user.username
     ? null
     : value;
 };

@@ -37,7 +37,7 @@ input LoginDto {
 type Mutation {
   createAccount(createAccountDto: CreateAccountDto!): Account!
   activateAccount(activateAccountDto: ActivateAccountDto!): Account!
-  removeAccount: Account!
+  deleteAccount: Account!
   resetPassword(resetPasswordDto: ResetPasswordDto!): Account!
 }
 
