@@ -6,10 +6,10 @@ import { ActivateAccountDto } from "./dto/activate-account.dto";
 import { LoginDto } from "./dto/login.dto";
 import { LoginResponseDto } from "./dto/login-response.dto";
 import { UseGuards } from "@nestjs/common";
-import { JwtGqlGuard } from "src/common/guards/jwt-gql.guard";
-import { ThrottlerGqlGuard } from "src/common/guards/throttler-gql.guard";
-import { AuthenticatedUser } from "src/common/decorators/current-user.decorator";
-import { AuthUser } from "src/common/models/auth-user.model";
+import { JwtGqlGuard } from "backend-common";
+import { ThrottlerGqlGuard } from "backend-common";
+import { AuthenticatedUser } from "backend-common";
+import { AuthUser } from "backend-common";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
 
 @Resolver(() => Account)

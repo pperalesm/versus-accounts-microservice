@@ -10,7 +10,7 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { join } from "path";
-import { CommonModule } from "src/common/common.module";
+import { CommonModule } from "backend-common";
 import { ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
