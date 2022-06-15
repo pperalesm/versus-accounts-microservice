@@ -1,4 +1,5 @@
 export const Constants = {
+  EMAIL_FROM: '"Versus Information" <info@versus.gg>',
   EMAIL_PATTERN:
     "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
   USERNAME_PATTERN: "^[a-zA-Z0-9]*$",
