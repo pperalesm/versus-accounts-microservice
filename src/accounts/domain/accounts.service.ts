@@ -12,6 +12,7 @@ import { isEmail } from "class-validator";
 import { LoginResponseDto } from "../api/dto/login-response.dto";
 import { JwtService } from "@nestjs/jwt";
 import { ResetPasswordDto } from "../api/dto/reset-password.dto";
+import { CommonConstants } from "backend-common";
 
 @Injectable()
 export class AccountsService {
@@ -26,7 +27,7 @@ export class AccountsService {
       new Account({
         avatarPath: "defaultAvatar.png",
         ...createAccountDto,
-        role: "CLIENT",
+        role: CommonConstants.CLIENT_ROLE,
         active: false,
         token: crypto.randomUUID(),
         password: await bcrypt.hash(
