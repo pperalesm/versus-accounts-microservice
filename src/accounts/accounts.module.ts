@@ -6,12 +6,17 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { Account, AccountSchema } from "./domain/entities/account.entity";
 import { JwtModule } from "@nestjs/jwt";
 import { CommonModule } from "backend-common";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: "local.env",
+      ignoreEnvFile: process.env.NODE_ENV && process.env.NODE_ENV != "local",
+    }),
     MongooseModule.forFeature([{ name: Account.name, schema: AccountSchema }]),
     JwtModule.register({
-      secret: `${process.env.JWT_SECRET}`,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: "1h" },
     }),
     CommonModule,
