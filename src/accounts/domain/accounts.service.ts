@@ -22,19 +22,19 @@ export class AccountsService {
   ) {}
 
   async create(createAccountDto: CreateAccountDto) {
-    let account = new Account({
-      avatarPath: "defaultAvatar.png",
-      ...createAccountDto,
-      role: "CLIENT",
-      active: false,
-      token: crypto.randomUUID(),
-      password: await bcrypt.hash(
-        createAccountDto.password,
-        Constants.SALT_ROUNDS,
-      ),
-    });
-
-    account = await this.accountsRepository.create(account);
+    const account = await this.accountsRepository.create(
+      new Account({
+        avatarPath: "defaultAvatar.png",
+        ...createAccountDto,
+        role: "CLIENT",
+        active: false,
+        token: crypto.randomUUID(),
+        password: await bcrypt.hash(
+          createAccountDto.password,
+          Constants.SALT_ROUNDS,
+        ),
+      }),
+    );
 
     this.mailerService
       .sendMail({
