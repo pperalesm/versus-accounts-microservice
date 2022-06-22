@@ -9,7 +9,7 @@ import * as crypto from "crypto";
 import * as bcrypt from "bcrypt";
 import { Constants } from "src/constants";
 import { isEmail } from "class-validator";
-import { LoginResponseDto } from "../api/dto/login-response.dto";
+import { AuthResponseDto } from "../api/dto/auth-response.dto";
 import { JwtService } from "@nestjs/jwt";
 import { ResetPasswordDto } from "../api/dto/reset-password.dto";
 import { CommonConstants } from "backend-common";
@@ -45,14 +45,30 @@ export class AccountsService {
       })
       .catch(() => {});
 
-    return account;
+    return new AuthResponseDto({
+      token: this.jwtService.sign({
+        username: account.username,
+        role: account.role,
+        active: account.active,
+      }),
+      account: account,
+    });
   }
 
   async activate(activateAccountDto: ActivateAccountDto) {
-    return await this.accountsRepository.updateOne(
+    const account = await this.accountsRepository.updateOne(
       { _id: activateAccountDto.id, token: activateAccountDto.token },
       { active: true, $unset: { token: "" } },
     );
+
+    return new AuthResponseDto({
+      token: this.jwtService.sign({
+        username: account.username,
+        role: account.role,
+        active: account.active,
+      }),
+      account: account,
+    });
   }
 
   async login(loginDto: LoginDto) {
@@ -77,7 +93,7 @@ export class AccountsService {
       throw new UnauthorizedException();
     }
 
-    return new LoginResponseDto({
+    return new AuthResponseDto({
       token: this.jwtService.sign({
         username: account.username,
         role: account.role,

@@ -17,13 +17,13 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type LoginResponseDto {
+type AuthResponseDto {
   token: String!
   account: Account!
 }
 
 type Query {
-  login(loginDto: LoginDto!): LoginResponseDto!
+  login(loginDto: LoginDto!): AuthResponseDto!
   findAccount(username: String!): Account!
   forgotPassword(email: String!): Boolean!
   checkUsername(username: String!): Boolean!
@@ -35,8 +35,8 @@ input LoginDto {
 }
 
 type Mutation {
-  createAccount(createAccountDto: CreateAccountDto!): Account!
-  activateAccount(activateAccountDto: ActivateAccountDto!): Account!
+  createAccount(createAccountDto: CreateAccountDto!): AuthResponseDto!
+  activateAccount(activateAccountDto: ActivateAccountDto!): AuthResponseDto!
   deleteAccount: Account!
   resetPassword(resetPasswordDto: ResetPasswordDto!): Account!
 }

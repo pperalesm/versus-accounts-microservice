@@ -4,7 +4,7 @@ import { Account } from "../domain/entities/account.entity";
 import { CreateAccountDto } from "./dto/create-account.dto";
 import { ActivateAccountDto } from "./dto/activate-account.dto";
 import { LoginDto } from "./dto/login.dto";
-import { LoginResponseDto } from "./dto/login-response.dto";
+import { AuthResponseDto } from "./dto/auth-response.dto";
 import { UseGuards } from "@nestjs/common";
 import { JwtGqlGuard } from "backend-common";
 import { ThrottlerGqlGuard } from "backend-common";
@@ -16,7 +16,7 @@ import { ResetPasswordDto } from "./dto/reset-password.dto";
 export class AccountsResolver {
   constructor(private readonly accountsService: AccountsService) {}
 
-  @Mutation(() => Account)
+  @Mutation(() => AuthResponseDto)
   @UseGuards(ThrottlerGqlGuard)
   async createAccount(
     @Args("createAccountDto") createAccountDto: CreateAccountDto,
@@ -24,7 +24,7 @@ export class AccountsResolver {
     return await this.accountsService.create(createAccountDto);
   }
 
-  @Mutation(() => Account)
+  @Mutation(() => AuthResponseDto)
   @UseGuards(ThrottlerGqlGuard)
   async activateAccount(
     @Args("activateAccountDto") activateAccountDto: ActivateAccountDto,
@@ -32,7 +32,7 @@ export class AccountsResolver {
     return await this.accountsService.activate(activateAccountDto);
   }
 
-  @Query(() => LoginResponseDto)
+  @Query(() => AuthResponseDto)
   @UseGuards(ThrottlerGqlGuard)
   async login(@Args("loginDto") loginDto: LoginDto) {
     return await this.accountsService.login(loginDto);
