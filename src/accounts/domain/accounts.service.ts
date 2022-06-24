@@ -12,7 +12,7 @@ import { isEmail } from "class-validator";
 import { AuthResponseDto } from "../api/dto/auth-response.dto";
 import { JwtService } from "@nestjs/jwt";
 import { ResetPasswordDto } from "../api/dto/reset-password.dto";
-import { CommonConstants } from "backend-common";
+import { AuthUser, CommonConstants } from "backend-common";
 
 @Injectable()
 export class AccountsService {
@@ -62,11 +62,9 @@ export class AccountsService {
     );
 
     return new AuthResponseDto({
-      token: this.jwtService.sign({
-        username: account.username,
-        role: account.role,
-        active: account.active,
-      }),
+      token: this.jwtService.sign(
+        new AuthUser(account.username, account.role, account.active),
+      ),
       account: account,
     });
   }
