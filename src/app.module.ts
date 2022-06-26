@@ -20,7 +20,9 @@ import { Constants } from "./constants";
       autoSchemaFile: join(process.cwd(), "src/schema.gql"),
       context: ({ req, res }) => ({ req, res }),
     }),
-    MongooseModule.forRoot(process.env.ACCOUNTS_DB, { autoIndex: false }),
+    MongooseModule.forRoot(process.env.ACCOUNTS_DB, {
+      autoIndex: process.env.NODE_ENV != "production",
+    }),
     MailerModule.forRoot({
       transport: {
         host: process.env.EMAIL_HOST,
