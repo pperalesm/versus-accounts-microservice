@@ -27,6 +27,7 @@ type Query {
   findAccount(username: String!): Account!
   forgotPassword(email: String!): Boolean!
   checkUsername(username: String!): Boolean!
+  sendActivationEmail: Boolean!
 }
 
 input LoginDto {

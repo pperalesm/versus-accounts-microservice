@@ -68,4 +68,10 @@ export class AccountsResolver {
   async checkUsername(@Args("username") username: string) {
     return await this.accountsService.checkUsername(username);
   }
+
+  @Query(() => Boolean)
+  @UseGuards(ThrottlerGqlGuard, JwtGqlGuard)
+  async sendActivationEmail(@AuthenticatedUser() authUser: AuthUser) {
+    return await this.accountsService.sendActivationEmail(authUser);
+  }
 }

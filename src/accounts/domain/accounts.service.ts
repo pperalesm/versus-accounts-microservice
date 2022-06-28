@@ -37,13 +37,7 @@ export class AccountsService {
       }),
     );
 
-    this.mailerService
-      .sendMail({
-        to: account.email,
-        subject: "Versus account activation",
-        html: `<p>Please follow this <a href="http://${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
-      })
-      .catch(() => {});
+    this.trySendingActivationEmail(account);
 
     return new AuthResponseDto({
       token: this.jwtService.sign({
@@ -144,5 +138,25 @@ export class AccountsService {
       .findOne({ username: username })
       .then(() => true)
       .catch(() => false);
+  }
+
+  trySendingActivationEmail(account: Account) {
+    this.mailerService
+      .sendMail({
+        to: account.email,
+        subject: "Versus account activation",
+        html: `<p>Please follow this <a href="http://${process.env.FRONTEND_URL}/auth/activate?id=${account.id}&token=${account.token}" target="_blank" rel="noopener noreferrer">link</a> to activate your Versus account!<p>`,
+      })
+      .catch(() => {});
+  }
+
+  async sendActivationEmail(authUser: AuthUser) {
+    const account = await this.accountsRepository.findOne({
+      username: authUser.username,
+    });
+
+    this.trySendingActivationEmail(account);
+
+    return true;
   }
 }
